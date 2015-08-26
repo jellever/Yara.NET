@@ -1,9 +1,6 @@
 #include "stdafx.h"
-#include "YaraRules.h"
-#include "yara.h"
 
-using namespace System;
-using namespace System::Collections::Generic;
+
 
 YaraRules::YaraRules(YR_RULES* yaraRulesPtr, Dictionary<String^, Object^>^ externalVars)
 {
@@ -27,5 +24,15 @@ YaraRules::!YaraRules()
 	{
 		yr_rules_destroy(this->nativeYaraRulesPtr);
 		this->nativeYaraRulesPtr = NULL;
+	}
+}
+
+void YaraRules::ParseNativeYaraRules()
+{
+	YR_RULE* yaraRulePtr = NULL;
+	yr_rules_foreach(this->nativeYaraRulesPtr, yaraRulePtr)
+	{
+		YaraRule^ yaraRule = gcnew YaraRule(yaraRulePtr);
+		this->yaraRules->Add(yaraRule);
 	}
 }

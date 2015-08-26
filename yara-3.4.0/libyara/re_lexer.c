@@ -536,11 +536,13 @@ with noyywrap then we can remove this pragma.
 #include <yara/re_lexer.h>
 #include <yara/strutils.h>
 
-
+//Visual Studio 2015 defines snprintf
+//http://stackoverflow.com/questions/27754492/vs-2015-compiling-cocos2d-x-3-3-error-fatal-error-c1189-error-macro-definiti
+#if _MSC_VER < 1900
 #ifdef _WIN32
 #define snprintf _snprintf
 #endif
-
+#endif
 
 uint8_t escaped_char_value(char* text);
 uint8_t read_escaped_char(yyscan_t yyscanner);

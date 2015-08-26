@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "YaraException.h"
+
 
 
 YaraException::YaraException(int err, String^ message)

@@ -30,10 +30,13 @@
     <ClInclude Include="YaraRules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="YaraError.h">
+    <ClInclude Include="YaraRule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="YaraRule.h">
+    <ClInclude Include="YaraCompilationError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YaraCompilationException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,10 +56,13 @@
     <ClCompile Include="YaraRules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="YaraError.cpp">
+    <ClCompile Include="YaraRule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="YaraRule.cpp">
+    <ClCompile Include="YaraCompilationError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YaraCompilationException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

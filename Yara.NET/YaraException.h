@@ -1,7 +1,6 @@
 #pragma once
-using namespace System;
 
-ref class YaraException : Exception
+public ref class YaraException : Exception
 {
 private:
 	int yaraError;

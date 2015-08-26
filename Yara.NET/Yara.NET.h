@@ -2,10 +2,8 @@
 
 #pragma once
 #include "YaraRules.h"
-#include "YaraError.h"
+#include "YaraCompilationError.h"
 
-using namespace System;
-using namespace System::Collections::Generic;
 
 namespace YaraNET 
 {	
@@ -16,18 +14,18 @@ namespace YaraNET
 	{
 	private:
 		static Yara instance;
-		List<YaraError^>^ yaraCompileErrors;
+		List<YaraCompilationError^>^ yaraCompileErrors;
 		Yara();
 		Yara(const Yara%) { throw gcnew System::InvalidOperationException("Singleton cannot be copy constructed!"); }		
 		YR_COMPILER* CreateYaraCompiler(bool allowIncludes);
 		void SetYaraCompilerExternals(YR_COMPILER* compiler, Dictionary<String^, Object^>^ externalVars);
-		YaraRules^ CompileYaraRules(YR_COMPILER* compiler);
+		YaraRules^ CompileYaraRules(YR_COMPILER* compiler, Dictionary<String^, Object^>^ externalVars);
 	public:		
 		static property Yara^ Instance { Yara^ get() { return %instance; } }		
 		void YaraErrorCallback(int error_level, const char* file_name, int line_number, const char* message, void* user_data);
-		YaraRules^ CompileFromSource(String^ source, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraError^>% compileWarnings);
-		YaraRules^ CompileFromSources(Dictionary<String^, String^>^ namespaceSourceDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraError^>% compileWarnings);
-		YaraRules^ CompileFromFile(String^ filePath, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraError^>% compileWarnings);
-		YaraRules^ CompileFromFiles(Dictionary<String^, String^>^ namespaceFilePathDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraError^>% compileWarnings);
+		YaraRules^ CompileFromSource(String^ source, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
+		YaraRules^ CompileFromSources(Dictionary<String^, String^>^ namespaceSourceDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
+		YaraRules^ CompileFromFile(String^ filePath, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
+		YaraRules^ CompileFromFiles(Dictionary<String^, String^>^ namespaceFilePathDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
 	};
 }

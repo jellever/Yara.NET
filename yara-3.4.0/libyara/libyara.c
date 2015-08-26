@@ -23,10 +23,13 @@ limitations under the License.
 #include <yara/modules.h>
 #include <yara/mem.h>
 
+//Visual Studio 2015 defines snprintf
+//http://stackoverflow.com/questions/27754492/vs-2015-compiling-cocos2d-x-3-3-error-fatal-error-c1189-error-macro-definiti
+#if _MSC_VER < 1900
 #ifdef _WIN32
 #define snprintf _snprintf
 #endif
-
+#endif
 
 #ifdef _WIN32
 #include <windows.h>

@@ -1,5 +1,4 @@
 #pragma once
-using namespace System;
 
 
 public enum class YaraErrorLevel
@@ -8,7 +7,7 @@ public enum class YaraErrorLevel
 	Warning = 1
 };
 
-ref class YaraError
+public ref class YaraCompilationError
 {
 private:
 	YaraErrorLevel errorLevel;
@@ -51,6 +50,6 @@ public:
 		}
 	}
 
-	YaraError(YaraErrorLevel errorLevel, String^ fileName, int LineNr, String^ msg);
+	YaraCompilationError(YaraErrorLevel errorLevel, String^ fileName, int LineNr, String^ msg);
 };
 

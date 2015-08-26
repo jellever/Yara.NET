@@ -2,7 +2,7 @@
 
 #include "YaraRule.h"
 
-ref class YaraRules
+public ref class YaraRules
 {
 private:
 	bool disposed;
