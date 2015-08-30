@@ -100,7 +100,7 @@ namespace Test.Yara.NET
                     streamWriter.Write(testRule1Data);
                     streamWriter.Flush();
                     byte[] memStreamData = memStream.ToArray();
-                    List<YaraMatch> matches =  yrRules.MatchData(memStreamData, IntPtr.Zero, null, false, 0);
+                    List<YaraMatch> matches = yrRules.MatchData(memStreamData, IntPtr.Zero, null, false, 0);
                     Assert.AreEqual(1, matches.Count);
 
                     YaraMatch match = matches[0];
@@ -114,6 +114,20 @@ namespace Test.Yara.NET
             }
         }
 
-       
+
+        [TestMethod]
+        public void TestYaraCompiledRulesSaveLoad()
+        {
+            string tempFile = Path.GetTempFileName();
+            string yrRuleSource = Properties.Resources.TestRule1;
+            using (YaraRules yrRules = LoadYaraRulesFromSource(yrRuleSource, null))
+            {
+                yrRules.SaveCompiledRules(tempFile);
+            }
+
+            using (YaraRules yrRules = YaraNET.Yara.Instance.LoadCompiledRules(tempFile))
+            {
+            }
+        }
     }
 }

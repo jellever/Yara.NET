@@ -14,6 +14,52 @@ namespace YaraNET
 		}
 	}
 
+	Yara::!Yara()
+	{
+		yr_finalize();
+	}
+
+	YaraRules^ Yara::LoadCompiledRules(String^ filePath)
+	{
+		Dictionary<String^, Object^>^ externalVariables = gcnew Dictionary<String^, Object^>();
+		marshal_context marshalCtx;
+		const char* filePathStr = marshalCtx.marshal_as<const char*>(filePath);
+
+		YR_RULES* yaraRulesPtr = NULL;
+		YR_EXTERNAL_VARIABLE* yaraExternalVarPtr = NULL;
+		int yrErr = yr_rules_load(filePathStr, &yaraRulesPtr);
+		if (yrErr != ERROR_SUCCESS)
+			throw gcnew YaraException(yrErr, String::Format("Failed to load compiled Yara rules from file '{0}'.", filePath));
+
+		yaraExternalVarPtr = yaraRulesPtr->externals_list_head;
+		while (!EXTERNAL_VARIABLE_IS_NULL(yaraExternalVarPtr))
+		{
+			char* externalVarIdentifier = yaraExternalVarPtr->identifier;
+			String^ externalVarIdentifierString = gcnew String(externalVarIdentifier);
+			Object^ externalVarValue = nullptr;
+
+			switch (yaraExternalVarPtr->type)
+			{
+			case EXTERNAL_VARIABLE_TYPE_STRING:
+				externalVarValue = gcnew String(yaraExternalVarPtr->value.s);
+				break;
+			case EXTERNAL_VARIABLE_TYPE_BOOLEAN:
+				externalVarValue = (bool)(yaraExternalVarPtr->value.i == 1);
+				break;
+			case EXTERNAL_VARIABLE_TYPE_INTEGER:
+				externalVarValue = (Int64)yaraExternalVarPtr->value.i;
+				break;
+			case EXTERNAL_VARIABLE_TYPE_FLOAT:
+				externalVarValue = (double)yaraExternalVarPtr->value.f;
+				break;
+			}
+			externalVariables->Add(externalVarIdentifierString, externalVarValue);
+			yaraExternalVarPtr++;
+		}
+		YaraRules^ rules = gcnew YaraRules(yaraRulesPtr, externalVariables);
+		return rules;
+	}
+
 	YR_COMPILER* Yara::CreateYaraCompiler(bool allowIncludes)
 	{
 		YR_COMPILER* result;

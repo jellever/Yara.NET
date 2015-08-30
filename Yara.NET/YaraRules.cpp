@@ -35,6 +35,15 @@ namespace YaraNET
 		}
 	}
 
+	void YaraRules::SaveCompiledRules(String^ filePath)
+	{
+		marshal_context marshalCtx;
+		const char* filePathStr = marshalCtx.marshal_as<const char*>(filePath);
+		int yrErr = yr_rules_save(this->nativeYaraRulesPtr, filePathStr);
+		if (yrErr != ERROR_SUCCESS)
+			throw gcnew YaraException(yrErr, "Failed to save compiled Yara ruled!");
+	}
+
 	void YaraRules::ParseNativeYaraRules()
 	{
 		YR_RULE* yaraRulePtr = NULL;

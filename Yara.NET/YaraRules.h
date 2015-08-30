@@ -36,6 +36,8 @@ namespace YaraNET
 		~YaraRules();
 		!YaraRules();
 
+		void SaveCompiledRules(String^ filePath);
+
 		List<YaraMatch^>^ MatchData(array<Byte>^ data, IntPtr dataBaseAddress, Dictionary<String^, Object^>^ externalVars, bool fast, int timeout);
 		List<YaraMatch^>^ MatchData(IntPtr dataPtr, IntPtr dataSize, IntPtr dataBaseAddress, Dictionary<String^, Object^>^ externalVars, bool fast, int timeout);
 
