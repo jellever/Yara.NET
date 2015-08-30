@@ -3,7 +3,7 @@ Yara.NET is a C++/CLI .NET wrapper around the popular [Yara](http://plusvic.gith
 
 Example:
 ```C#
-string myYaraRule = "...my rules here...";
+string myYaraRule = "...my rule here...";
 string namespaceName = null; //optional
 List<YaraCompilationError> errors; //contains yara compile warnings. If there are any errors a YaraException is thrown from CompileFromSource
 YaraRules yrRules = YaraNET.Yara.Instance.CompileFromSource(myYaraRule, namespaceName, false, null, out errors);
