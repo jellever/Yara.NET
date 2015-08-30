@@ -4,6 +4,7 @@
 
 #pragma once
 #include <msclr\marshal.h>
+#include <msclr\lock.h>
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -15,6 +16,9 @@ using namespace msclr::interop;
 #include "YaraCompilationException.h"
 #include "YaraException.h"
 #include "YaraRule.h"
+#include "YaraString.h"
+#include "YaraMatch.h"
+#include "YaraScanCallBackData.h"
 #include "YaraRules.h"
 #include "Yara.NET.h"
 

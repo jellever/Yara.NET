@@ -18,7 +18,7 @@ namespace YaraNET
 	{
 		YR_COMPILER* result;
 		int err = yr_compiler_create(&result);
-		if (err = ERROR_SUCCESS)
+		if (err == ERROR_SUCCESS)
 		{
 			result->allow_includes = allowIncludes;
 			return result;

@@ -1,19 +1,21 @@
 #pragma once
 
-ref class YaraCompilationException : Exception
+namespace YaraNET
 {
-private:
-	List<YaraCompilationError^>^ yaraCompileErrors;
-
-public:
-	YaraCompilationException(List<YaraCompilationError^>^ compileErrors, String^ message);
-
-	property List<YaraCompilationError^>^ YaraCompileErrors {
-public:
-	List<YaraCompilationError^>^ get()
+	ref class YaraCompilationException : Exception
 	{
-		return gcnew List<YaraCompilationError^>(this->yaraCompileErrors);
-	}
-	}
-};
+	private:
+		List<YaraCompilationError^>^ yaraCompileErrors;
 
+	public:
+		YaraCompilationException(List<YaraCompilationError^>^ compileErrors, String^ message);
+
+		property List<YaraCompilationError^>^ YaraCompileErrors {
+	public:
+		List<YaraCompilationError^>^ get()
+		{
+			return gcnew List<YaraCompilationError^>(this->yaraCompileErrors);
+		}
+		}
+	};
+}

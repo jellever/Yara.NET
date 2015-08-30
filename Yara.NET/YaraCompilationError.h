@@ -1,55 +1,57 @@
 #pragma once
 
-
-public enum class YaraErrorLevel
+namespace YaraNET
 {
-	Error = 0,
-	Warning = 1
-};
-
-public ref class YaraCompilationError
-{
-private:
-	YaraErrorLevel errorLevel;
-	String^ fileName;
-	int lineNumber;
-	String^ message;
-	IntPtr userData;
-
-public:
-
-	property YaraErrorLevel ErrorLevel
+	public enum class YaraErrorLevel
 	{
-	public:
-		YaraErrorLevel get(){
-			return errorLevel;
-		}
-	}
+		Error = 0,
+		Warning = 1
+	};
 
-	property String^ FileName
+	public ref class YaraCompilationError
 	{
+	private:
+		YaraErrorLevel errorLevel;
+		String^ fileName;
+		int lineNumber;
+		String^ message;
+		IntPtr userData;
+
 	public:
-		String^ get(){
-			return fileName;
+
+		property YaraErrorLevel ErrorLevel
+		{
+		public:
+			YaraErrorLevel get() {
+				return errorLevel;
+			}
 		}
-	}
 
-	property int LineNumber
-	{
-	public:
-		int get(){
-			return lineNumber;
+		property String^ FileName
+		{
+		public:
+			String^ get() {
+				return fileName;
+			}
 		}
-	}
 
-	property String^ Message
-	{
-	public:
-		String^ get(){
-			return message;
+		property int LineNumber
+		{
+		public:
+			int get() {
+				return lineNumber;
+			}
 		}
-	}
 
-	YaraCompilationError(YaraErrorLevel errorLevel, String^ fileName, int LineNr, String^ msg);
-};
+		property String^ Message
+		{
+		public:
+			String^ get() {
+				return message;
+			}
+		}
 
+		YaraCompilationError(YaraErrorLevel errorLevel, String^ fileName, int LineNr, String^ msg);
+	};
+
+}

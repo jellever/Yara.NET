@@ -39,6 +39,15 @@
     <ClInclude Include="YaraCompilationException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="YaraMatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YaraScanCallBackData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="YaraString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Yara.NET.cpp">
@@ -63,6 +72,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="YaraCompilationException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YaraMatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YaraScanCallBackData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YaraString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

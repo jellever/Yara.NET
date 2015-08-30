@@ -1,18 +1,20 @@
 #pragma once
 
-public ref class YaraException : Exception
+namespace YaraNET
 {
-private:
-	int yaraError;
-
-public:
-	property int YaraError{
-public:
-	int get()
+	public ref class YaraException : Exception
 	{
-		return yaraError;
-	}
-	}
-	YaraException(int err, String^ message);
-};
+	private:
+		int yaraError;
 
+	public:
+		property int YaraError {
+	public:
+		int get()
+		{
+			return yaraError;
+		}
+		}
+		YaraException(int err, String^ message);
+	};
+}

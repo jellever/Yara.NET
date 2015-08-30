@@ -83,8 +83,11 @@
     <ClInclude Include="YaraCompilationError.h" />
     <ClInclude Include="YaraCompilationException.h" />
     <ClInclude Include="YaraException.h" />
+    <ClInclude Include="YaraMatch.h" />
     <ClInclude Include="YaraRule.h" />
     <ClInclude Include="YaraRules.h" />
+    <ClInclude Include="YaraScanCallBackData.h" />
+    <ClInclude Include="YaraString.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -96,8 +99,11 @@
     <ClCompile Include="YaraCompilationError.cpp" />
     <ClCompile Include="YaraCompilationException.cpp" />
     <ClCompile Include="YaraException.cpp" />
+    <ClCompile Include="YaraMatch.cpp" />
     <ClCompile Include="YaraRule.cpp" />
     <ClCompile Include="YaraRules.cpp" />
+    <ClCompile Include="YaraScanCallBackData.cpp" />
+    <ClCompile Include="YaraString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

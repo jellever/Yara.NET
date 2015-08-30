@@ -1,57 +1,65 @@
 #pragma once
-#include "yara.h"
+#include "Stdafx.h"
 
-
-public ref class YaraRule
+namespace YaraNET
 {
-private:
-	String^ name;
-	List<String^>^ tags;
-	String^ namespaceName;
-	List<String^>^ strings;
-	Dictionary<String^, Object^>^ metas;
-public:
-
-	property String^ Name{
-public:
-	String^ get()
+	public ref class YaraRule
 	{
-		return this->name;
-	}
-	}
+	private:
+		String^ name;
+		List<String^>^ tags;
+		String^ namespaceName;
+		List<String^>^ stringIdentifiers;
+		Dictionary<String^, Object^>^ metas;
+	public:
 
-	property List<String^>^ Tags{
-public:
-	List<String^>^ get()
-	{
-		return gcnew List<String^>(this->tags);
-	}
-	}
+		property String^ Name {
+	public:
+		String^ get()
+		{
+			return this->name;
+		}
+		}
 
-	property String^ Namespace{
-public:
-	String^ get()
-	{
-		return this->namespaceName;
-	}
-	}
+		property List<String^>^ Tags {
+	public:
+		List<String^>^ get()
+		{
+			return gcnew List<String^>(this->tags);
+		}
+		}
 
-	property List<String^>^ Strings{
-public:
-	List<String^>^ get()
-	{
-		return gcnew List<String^>(this->strings);
-	}
-	}
+		property String^ Namespace {
+	public:
+		String^ get()
+		{
+			return this->namespaceName;
+		}
+		}
 
-	property Dictionary<String^, Object^>^ Metas{
-public:
-	Dictionary<String^, Object^>^ get()
-	{
-		return gcnew Dictionary<String^, Object^>(this->metas);
-	}
-	}
+		property List<String^>^ StringIdentifiers {
+	public:
+		List<String^>^ get()
+		{
+			return gcnew List<String^>(this->stringIdentifiers);
+		}
+		}
 
-	YaraRule(YR_RULE* yaraRulePtr);
-};
+		property Dictionary<String^, Object^>^ Metas {
+	public:
+		Dictionary<String^, Object^>^ get()
+		{
+			return gcnew Dictionary<String^, Object^>(this->metas);
+		}
+		}
 
+		YaraRule(YR_RULE* yaraRulePtr);
+
+		generic <typename T>
+			bool ExtractMetaValue(String^ key, T% obj);
+
+			static Dictionary<String^, Object^>^ GetYaraRuleMetaData(YR_RULE* rule);
+			static List<String^>^ GetYaraRuleStrings(YR_RULE* rule);
+			static List<String^>^ GetYaraRuleTags(YR_RULE* rule);
+	};
+}
