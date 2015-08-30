@@ -4,7 +4,7 @@
 namespace YaraNET
 {
 	YaraRules::YaraRules(YR_RULES* yaraRulesPtr, Dictionary<String^, Object^>^ externalVars)
-	{		
+	{
 		this->yaraRules = gcnew List<YaraRule^>();
 		if (externalVars != nullptr)
 		{
@@ -147,8 +147,10 @@ namespace YaraNET
 		}
 		finally
 		{
-			callbackDataHandle.Free();
-			scanCallbackDelegateHandle.Free();
+			if (callbackDataHandle.IsAllocated)
+				callbackDataHandle.Free();
+			if (scanCallbackDelegateHandle.IsAllocated)
+				scanCallbackDelegateHandle.Free();
 			if (restoreExternalVariables)
 			{
 				this->SetYaraRulesExternals(this->externalVars);
@@ -203,8 +205,10 @@ namespace YaraNET
 		}
 		finally
 		{
-			callbackDataHandle.Free();
-			scanCallbackDelegateHandle.Free();
+			if (callbackDataHandle.IsAllocated)
+				callbackDataHandle.Free();
+			if (scanCallbackDelegateHandle.IsAllocated)
+				scanCallbackDelegateHandle.Free();
 			if (restoreExternalVariables)
 			{
 				this->SetYaraRulesExternals(this->externalVars);
@@ -250,8 +254,10 @@ namespace YaraNET
 		}
 		finally
 		{
-			callbackDataHandle.Free();
-			scanCallbackDelegateHandle.Free();
+			if (callbackDataHandle.IsAllocated)
+				callbackDataHandle.Free();
+			if (scanCallbackDelegateHandle.IsAllocated)
+				scanCallbackDelegateHandle.Free();
 			if (restoreExternalVariables)
 			{
 				this->SetYaraRulesExternals(this->externalVars);

@@ -18,14 +18,14 @@ namespace YaraNET
 		Yara();
 		Yara(const Yara%) { throw gcnew System::InvalidOperationException("Singleton cannot be copy constructed!"); }		
 		YR_COMPILER* CreateYaraCompiler(bool allowIncludes);
+		void YaraErrorCallback(int error_level, const char* file_name, int line_number, const char* message, void* user_data);
 		void SetYaraCompilerExternals(YR_COMPILER* compiler, Dictionary<String^, Object^>^ externalVars);
 		YaraRules^ CompileYaraRules(YR_COMPILER* compiler, Dictionary<String^, Object^>^ externalVars);
 	public:		
-		static property Yara^ Instance { Yara^ get() { return %instance; } }		
-		void YaraErrorCallback(int error_level, const char* file_name, int line_number, const char* message, void* user_data);
+		static property Yara^ Instance { Yara^ get() { return %instance; } }				
 		YaraRules^ CompileFromSource(String^ source, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
-		YaraRules^ CompileFromSources(Dictionary<String^, String^>^ namespaceSourceDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
+		YaraRules^ CompileFromSources(List<KeyValuePair<String^, String^>>^ namespaceSourceList, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
 		YaraRules^ CompileFromFile(String^ filePath, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
-		YaraRules^ CompileFromFiles(Dictionary<String^, String^>^ namespaceFilePathDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
+		YaraRules^ CompileFromFiles(List<KeyValuePair<String^, String^>>^ namespaceFilePathList, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings);
 	};
 }

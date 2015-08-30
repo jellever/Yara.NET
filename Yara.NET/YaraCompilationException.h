@@ -2,7 +2,7 @@
 
 namespace YaraNET
 {
-	ref class YaraCompilationException : Exception
+	public ref class YaraCompilationException : Exception
 	{
 	private:
 		List<YaraCompilationError^>^ yaraCompileErrors;

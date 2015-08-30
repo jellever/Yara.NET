@@ -68,7 +68,10 @@ namespace YaraNET
 
 	void Yara::YaraErrorCallback(int error_level, const char* file_name, int line_number, const char* message, void* user_data)
 	{
-
+		String^ filename = gcnew String(file_name);
+		String^ msg = gcnew String(message);
+		YaraCompilationError^ yaraError = gcnew YaraCompilationError((YaraErrorLevel)error_level, filename, line_number, msg);
+		this->yaraCompileErrors->Add(yaraError);
 	}
 
 	YaraRules^ Yara::CompileYaraRules(YR_COMPILER* compiler, Dictionary<String^, Object^>^ externalVars)
@@ -82,12 +85,12 @@ namespace YaraNET
 
 	YaraRules^ Yara::CompileFromSource(String^ source, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings)
 	{
-		Dictionary<String^, String^>^ namespaceSourceDict = gcnew Dictionary<String^, String^>();
-		namespaceSourceDict->Add(source, namespace_);
-		return CompileFromSources(namespaceSourceDict, allowIncludes, externalVars, compileWarnings);
+		List<KeyValuePair<String^, String^>>^ namespaceSourceList = gcnew List<KeyValuePair<String^, String^>>();
+		namespaceSourceList->Add(KeyValuePair<String^, String^>(namespace_, source));
+		return CompileFromSources(namespaceSourceList, allowIncludes, externalVars, compileWarnings);
 	}
 
-	YaraRules^ Yara::CompileFromSources(Dictionary<String^, String^>^ namespaceSourceDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings)
+	YaraRules^ Yara::CompileFromSources(List<KeyValuePair<String^, String^>>^ namespaceSourceList, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, [Out] List<YaraCompilationError^>^% compileWarnings)
 	{
 		compileWarnings = gcnew List<YaraCompilationError^>();
 		marshal_context marshalCtx;
@@ -104,10 +107,10 @@ namespace YaraNET
 			IntPtr callbackPtr = Marshal::GetFunctionPointerForDelegate(callbackDelegate);
 			yr_compiler_set_callback(yaraCompiler, (YR_COMPILER_CALLBACK_FUNC)callbackPtr.ToPointer(), NULL);
 
-			for each (auto namespaceSourcePair in namespaceSourceDict)
+			for each (auto namespaceSourcePair in namespaceSourceList)
 			{
-				const char* sourcePtr = marshalCtx.marshal_as<const char*>(namespaceSourcePair.Key);
-				const char* namespacePtr = marshalCtx.marshal_as<const char*>(namespaceSourcePair.Value);
+				const char* namespacePtr = marshalCtx.marshal_as<const char*>(namespaceSourcePair.Key);
+				const char* sourcePtr = marshalCtx.marshal_as<const char*>(namespaceSourcePair.Value);
 				int errCount = yr_compiler_add_string(yaraCompiler, sourcePtr, namespacePtr);
 				if (errCount > 0)
 					throw gcnew YaraCompilationException(this->yaraCompileErrors, "Failed to add source to Yara compiler");
@@ -116,8 +119,10 @@ namespace YaraNET
 
 			return CompileYaraRules(yaraCompiler, externalVars);
 		}
-		finally{			
-			delHandle.Free();			
+		finally{
+			this->yaraCompileErrors->Clear();
+			if (delHandle.IsAllocated)
+				delHandle.Free();
 			if (yaraCompiler != NULL)
 			{
 				yr_compiler_destroy(yaraCompiler);
@@ -128,12 +133,12 @@ namespace YaraNET
 
 	YaraRules^ Yara::CompileFromFile(String^ filePath, String^ namespace_, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraCompilationError^>^% compileWarnings)
 	{
-		Dictionary<String^, String^>^ namespaceFilePathDict = gcnew Dictionary<String^, String^>();
-		namespaceFilePathDict->Add(filePath, namespace_);
-		return CompileFromFiles(namespaceFilePathDict, allowIncludes, externalVars, compileWarnings);
+		List<KeyValuePair<String^, String^>>^ namespaceFilePathList = gcnew List<KeyValuePair<String^, String^>>();
+		namespaceFilePathList->Add(KeyValuePair<String^, String^>(namespace_, filePath));
+		return CompileFromFiles(namespaceFilePathList, allowIncludes, externalVars, compileWarnings);
 	}
 
-	YaraRules^ Yara::CompileFromFiles(Dictionary<String^, String^>^ namespaceFilePathDict, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraCompilationError^>^% compileWarnings)
+	YaraRules^ Yara::CompileFromFiles(List<KeyValuePair<String^, String^>>^ namespaceFilePathList, bool allowIncludes, Dictionary<String^, Object^>^ externalVars, List<YaraCompilationError^>^% compileWarnings)
 	{
 		FILE* yaraSourceFile = NULL;
 		compileWarnings = gcnew List<YaraCompilationError^>();
@@ -151,10 +156,11 @@ namespace YaraNET
 			IntPtr callbackPtr = Marshal::GetFunctionPointerForDelegate(callbackDelegate);
 			yr_compiler_set_callback(yaraCompiler, (YR_COMPILER_CALLBACK_FUNC)callbackPtr.ToPointer(), NULL);
 
-			for each (auto namespaceFilePair in namespaceFilePathDict)
+			for each (auto namespaceFilePair in namespaceFilePathList)
 			{
-				const char* filePathStr = marshalCtx.marshal_as<const char*>(namespaceFilePair.Key);
-				const char* namespacePtr = marshalCtx.marshal_as<const char*>(namespaceFilePair.Value);
+				const char* namespacePtr = marshalCtx.marshal_as<const char*>(namespaceFilePair.Key);
+				const char* filePathStr = marshalCtx.marshal_as<const char*>(namespaceFilePair.Value);
+
 				yaraSourceFile = fopen(filePathStr, "r");
 				if (yaraSourceFile != NULL)
 				{
@@ -174,12 +180,14 @@ namespace YaraNET
 			return CompileYaraRules(yaraCompiler, externalVars);
 		}
 		finally{
+			this->yaraCompileErrors->Clear();
 			if (yaraSourceFile != NULL)
 			{
 				fclose(yaraSourceFile);
 				yaraSourceFile = NULL;
 			}
-			delHandle.Free();
+			if (delHandle.IsAllocated)
+				delHandle.Free();
 			if (yaraCompiler != NULL)
 			{
 				yr_compiler_destroy(yaraCompiler);
