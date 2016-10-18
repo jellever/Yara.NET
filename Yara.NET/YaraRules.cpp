@@ -108,7 +108,7 @@ namespace YaraNET
 				yr_string_matches_foreach(yaraString, match)
 				{
 					IntPtr memoryAddress = (IntPtr)(callbackData->DataBaseAddress.ToInt64() + match->offset);
-					IntPtr matchSize = (IntPtr)match->length;
+					IntPtr matchSize = (IntPtr)match->match_length;
 					IntPtr matchOffset = (IntPtr)match->offset;
 					YaraString^ netYaraString = gcnew YaraString(match->data, matchSize, matchOffset, memoryAddress, gcnew String(yaraString->identifier));
 					yaraMatch->AddMatch(netYaraString);

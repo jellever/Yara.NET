@@ -1,0 +1,10 @@
+﻿import "hash"
+
+
+rule MyHashYaraRule
+{
+	strings:
+		$a = "test"
+	condition:
+		$a and not hash.md5(0,filesize) == "20cdf36e37b4fd0144afe1aaa8537f34"
+}

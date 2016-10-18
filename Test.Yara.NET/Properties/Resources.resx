@@ -127,4 +127,7 @@
   <data name="TestRule1Data" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\testdata\testrule1data.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="TestRuleHash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\TestData\TestRuleHash.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

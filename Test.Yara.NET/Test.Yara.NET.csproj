@@ -95,21 +95,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yara.NET\Yara.NET.vcxproj">
-      <Project>{1c647d49-05eb-418a-9968-f0819c67018d}</Project>
-      <Name>Yara.NET</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="TestData\FaultyRule.txt" />
     <Content Include="TestData\TestRule1.txt" />
     <Content Include="TestData\TestRule1Data.txt" />
+    <Content Include="TestData\TestRuleHash.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yara.NET\Yara.NET.vcxproj">
+      <Project>{1c647d49-05eb-418a-9968-f0819c67018d}</Project>
+      <Name>Yara.NET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

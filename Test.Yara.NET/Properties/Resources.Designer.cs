@@ -92,8 +92,8 @@ namespace Test.Yara.NET.Properties {
         ///        in_the_wild = true
         ///
         ///    strings:
-        ///        $a = {6A 40 68 00 30 00 00 6A 14 8D 91}
-        ///        $b = {8D 4D B0 2B C1 83 C0 27 99 6A 4E 59 F7 F9}
+        ///        $a = {4D 59 54 45 53 54 53 54 52 49 4E 47} //MYTESTSTRING
+        ///        $b = {53 6f 4d 65 20 52 61 4e 64 4f 6d 20 54 65 58 74} //SoMe RaNdOm TeXt
         ///        $c = &quot;UVODFRYSIHLNWPEJXQZAKCBGMT&quot;
         ///
         ///    condition:
@@ -107,11 +107,32 @@ namespace Test.Yara.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to j@h0j‘.
+        ///   Looks up a localized string similar to MYTESTSTRING
+        ///
+        ///SoMe RaNdOm TeXt
+        ///
+        ///UVODFRYSIHLNWPEJXQZAKCBGMT
+        ///UVODFRYSIHLNWPEJXQZAKCBGMT
+        ///UVODFRYSIHLNWPEJXQZAKCBGMT.
         /// </summary>
         internal static string TestRule1Data {
             get {
                 return ResourceManager.GetString("TestRule1Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to rule MyHashYaraRule
+        ///{
+        ///	strings:
+        ///		$a = &quot;test&quot;
+        ///	condition:
+        ///		$a and not hash.md5(0,filesize) == &quot;20cdf36e37b4fd0144afe1aaa8537f34&quot;
+        ///}.
+        /// </summary>
+        internal static string TestRuleHash {
+            get {
+                return ResourceManager.GetString("TestRuleHash", resourceCulture);
             }
         }
     }

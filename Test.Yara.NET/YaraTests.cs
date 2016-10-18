@@ -85,7 +85,7 @@ namespace Test.Yara.NET
         {
             IEnumerable<YaraString> strings = yaraMatch.MatchData.Where(x => x.IdentifierName == stringIdentifier);
             Assert.AreEqual(expectedNrOfStringMatches, strings.Count());
-        }
+        }       
 
         [TestMethod]
         public void TestYaraBasicMatch()
@@ -127,6 +127,16 @@ namespace Test.Yara.NET
 
             using (YaraRules yrRules = YaraNET.Yara.Instance.LoadCompiledRules(tempFile))
             {
+            }
+        }
+
+        [TestMethod]
+        public void TestHashRule()
+        {
+            List<YaraCompilationError> errors;
+            using (YaraRules yrRules = YaraNET.Yara.Instance.CompileFromSource(Properties.Resources.TestRuleHash, null, false, null, out errors))
+            {
+                yrRules.MatchData(new byte[1 ], IntPtr.Zero, null, false, 0);
             }
         }
     }
