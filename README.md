@@ -1,5 +1,5 @@
 # Yara.NET
-Yara.NET is a C++/CLI .NET wrapper around the popular [Yara](http://plusvic.github.io/yara/) project. It currently is compiled against Yara lib 3.4.0. The Yara.NET API was inspired/based on the Yara Python API and thus has a somewhat similar API.
+Yara.NET is a C++/CLI .NET wrapper around the popular [Yara](http://plusvic.github.io/yara/) project. It currently is compiled against Yara lib 3.5.0. The Yara.NET API was inspired/based on the Yara Python API and thus has a somewhat similar API.
 
 Example:
 ```C#
